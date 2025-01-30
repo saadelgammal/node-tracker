@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node Tracker</title>
+</head>
+<body>
+    <h2>Daily Node Tracker</h2>
+    <form id="nodeForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required><br><br>
+        
+        <label for="morningNodes">How many nodes did you pick up in the morning?</label>
+        <input type="number" id="morningNodes" required><br><br>
+        
+        <label for="eveningNodes">How many nodes do you have at the end of the day?</label>
+        <input type="number" id="eveningNodes" required><br><br>
+        
+        <label for="comments">Additional Comments:</label><br>
+        <textarea id="comments"></textarea><br><br>
+        
+        <button type="submit">Submit</button>
+    </form>
+    
+    <script>
+        document.getElementById("nodeForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const formData = {
+                name: document.getElementById("name").value,
+                morningNodes: document.getElementById("morningNodes").value,
+                eveningNodes: document.getElementById("eveningNodes").value,
+                comments: document.getElementById("comments").value
+            };
+            
+            fetch("https://your-backend-render-url.com/send-email", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message))
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+</body>
+</html>
